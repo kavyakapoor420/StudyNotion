@@ -3,7 +3,7 @@ require('dotenv').config()
 
 
 //auth check 
-exports.auth=async(req,resizeBy,next)=>{
+exports.auth=async(req,res,next)=>{
 
     try{
         //extract token 
@@ -28,8 +28,36 @@ exports.auth=async(req,resizeBy,next)=>{
 }
 
 // is Student check role 
-
+exports.isStudent=async(req,res,next)=>{
+    try{
+        if(req.user.accountType!=='Student'){
+            return res.status(401).json({success:false,message:'this is protected route for students only'})
+        }
+        next()
+    }catch(err){
+        return res.status(500).json({success:false,message:'user role cannot be verified'})
+    }
+}
 // isInstructor 
-
+exports.isInstuctor=async(req,res,next)=>{
+    try{
+        if(req.user.accountType!=='Instructor'){
+            return res.status(401).json({success:false,message:'this is protected route for instructor only'})
+        }
+        next() 
+    }catch(err){
+        return res.status(500).json({success:false,message:'user role cannot be verified '})
+    }
+}
 
 // isAdmin
+exports.isAdmin=async(req,res,next)=>{
+    try{
+        if(req.user.accountType!=='Admin'){
+            return res.status(401).json({success:false,message:'this is protected route for Admin only'})
+        }
+        next() 
+    }catch(err){
+        return res.status(500).json({success:false,message:'user role cannot be verified '})
+    }
+}
