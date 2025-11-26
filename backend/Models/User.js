@@ -16,6 +16,12 @@ const userSchema=new mongoose.Schema({
     confirmPass:{
         type:String
     },
+    token:{
+
+    },
+    resetPasswordExpires:{
+
+    },
     accountType:{
         type:String,
         enum:["Admin","Student","Instructor"],
