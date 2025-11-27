@@ -4,10 +4,10 @@ const tagSchema=new mongoose.Schema({
   
     name:String ,
     description:String ,
-    course:{
+    course:[{
         type:mongoose.Schema.Types.ObjectId ,
         ref:"Course"
-    }
+    }]
 
 })
 
