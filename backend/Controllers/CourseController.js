@@ -72,3 +72,25 @@ exports.showAllCourses=async(req,res)=>{
 
 
 //get course details by id handler function
+exports.getCourseDetails=async(req,res)=>{
+
+    try{
+             const {courseId}=req.body ;
+             
+            // find details of course 
+            const courseDetails=await Course.findById(
+                {_id:courseId}
+            ).populate({path:'instructor',populate:{path:'additionalDetails'}})
+            .populate("category").populate('ratingAndReview').populate({path:"courseContent",populate:{path:'subSection'}}).exec() 
+
+            if(!courseDetails){
+                return res.status(400).json({success:false,message:'could nto find the course with courseId '})
+            }
+
+            return res.status(200).json({success:false,message:'course details fetched successfully'})
+
+
+    }catch(err){
+            return res.status(500).json({success:false,message:err.message})
+    }
+}
