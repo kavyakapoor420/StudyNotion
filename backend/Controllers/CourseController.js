@@ -69,3 +69,6 @@ exports.showAllCourses=async(req,res)=>{
         return res.status(500).json({success:false,message:'cannot fetch courses data',error:err.message})
     }   
 }
+
+
+//get course details by id handler function
