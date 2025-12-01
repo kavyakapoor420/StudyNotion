@@ -46,6 +46,55 @@ exports.createRating=async(req,res)=>{
 }
 
 // getAvg rating 
+exports.getAvgRating=async(req,res)=>{
 
+    try{
+        const courseId=req.body.courseId 
+
+        const result=await RatingAndReview.aggregate([
+            {
+                $match:{course:new mongoose.Types.ObjectId(courseId)}
+            },{
+                $group:{
+                    _id:null,averageRating:{$avg:"rating"}
+                }
+            }
+        ])
+
+        if(result.length>0){
+            return res.status(200).json({success:true,averageRating:result[0].averageRating})
+        }
+
+        // if no rating / review exist 
+        return res.status(200).json({
+            success:true,message:'average rating is 0 , no rating given till now ',
+            averageRating:0
+        })
+
+    }catch(err){    
+        return res.status(500).json({success:false,message:err.message})
+    }
+}
 
 // get all rating 
+exports.getAllRatings=async(req ,res)=>{
+
+
+    try{
+            const allReviews=(await RatingAndReview.find({}))
+                                                        .sort({rating:'desc'})
+                                                        .populate({
+                                                            path:"user",
+                                                            select:'firstName lastName email image'
+                                                        })
+                                                        .populate({
+                                                            path:'course',
+                                                            select:"courseName"
+                                                        })
+                                                        .exec() 
+    
+         return res.status(200).json({success:true,message:'all reviews and rating fetched ',data:allReviews})
+    }catch(err){
+        return res.status(500).json({success:false,message:err.message})
+    }
+}
