@@ -162,14 +162,14 @@ const HomePage = () => {
                             <div>Learn More</div>
                           </CTAButton>
                       </div>  
+
                     </div>
 
-                    
+                     <TimelineSection/>
+                   <LearningLanguageSection/>
 
                </div>
-
-               <TimelineSection/>
-               <LearningLanguageSection/>
+   
 
 
 
