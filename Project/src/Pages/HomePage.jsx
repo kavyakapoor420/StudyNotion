@@ -7,6 +7,8 @@ import Banner from '../assets/Images/banner.mp4'
 import CodeBlocks from '../Components/CodeBlocks'
 import TimelineSection from '../Components/HomePage/TimelineSection'
 import LearningLanguageSection from '../Components/HomePage/LearningLanguageSection'
+import InstructorSection from '../Components/HomePage/InstructorSection'
+import ExploreMore from '../Components/HomePage/ExploreMore'
 
 
 const HomePage = () => {
@@ -118,7 +120,7 @@ const HomePage = () => {
                           
                         />
                 </div>
-
+                    <ExploreMore/>
             </div>
 
            {/* section2 */}
@@ -176,6 +178,14 @@ const HomePage = () => {
            </div>
 
            {/* section3 */}
+
+           <div className='w-11/12 mx-auto flex flex-col gap-8 bg-richblack-900 text-white justify-between first-letter  max-w-maxContent items-center'>
+                <InstructorSection/>
+
+                <h2 className='text-4xl font-semibold text-center'>
+                  review from other learners 
+                </h2>
+           </div>
 
 
            {/* footer */}
