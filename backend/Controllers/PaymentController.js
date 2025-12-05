@@ -117,7 +117,6 @@ const enrollStudents=async(courses,userId,res)=>{
 }
 
 // capture payment and create order -> payment gateway -> razorpay
-
 exports.capturePayment=async(req,res)=>{
 
     try{
