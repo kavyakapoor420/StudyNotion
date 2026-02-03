@@ -1,40 +1,25 @@
 const mongoose=require('mongoose')
-const mailSender = require('../utils/mailSender')
 
+// create OTP schema
 const otpSchema=new mongoose.Schema({
-  
+
     email:{
-        type:String,required:true 
+        type:String,
+        required:true 
     },
-    otp:String,
+    otp:{
+        type:String,
+        required:true 
+    },
     createdAt:{
         type:Date,
-        default:Date.now() ,
-        expires:5*60 
+        default:Date.now,
+        expires:60*5 // OTP expires in 5 minutes // the document will be automatically deleted after 5 minutes of its creation time 
     }
-
+   
 })
 
+// export  the OTP model
+const OTP=mongoose.model("OTP",otpSchema)
 
-//a function to send email
-
-async function sendVerificationEmail(email,otp){
-
-    try{
-
-        const mailResponse=await mailSender(email,"verification email from StudyNotion",otp)
-        console.log('email sent successfully',mailResponse)
-
-    }catch(err){
-        console.log('error occured while sending email')
-        throw err
-    }
-}
-
-otpSchema.pre("save",async function(next){
-    await sendVerificationEmail(this.email,this.otp)
-    next() ;
-})
-
-
-module.exports=mongoose.model("Otp",otpSchema)
+module.exports=OTP 

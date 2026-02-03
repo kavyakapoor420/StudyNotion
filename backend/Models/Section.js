@@ -1,4 +1,4 @@
-const mongoose=require('mongoose')
+const mongoose=require("mongoose")
 
 const sectionSchema=new mongoose.Schema({
 
@@ -7,11 +7,11 @@ const sectionSchema=new mongoose.Schema({
     subSection:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            required:true ,
+            required:true,
             ref:"SubSection"
         }
     ]
 })
 
-
+// export the section model
 module.exports=mongoose.model("Section",sectionSchema)

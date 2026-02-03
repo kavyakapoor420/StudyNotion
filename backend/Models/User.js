@@ -1,55 +1,68 @@
-const mongoose=require('mongoose')
+
+const mongoose=require("mongoose")
+const CourseProgress = require("./CourseProgress")
 
 const userSchema=new mongoose.Schema({
 
     firstName:{
-        type:String,required:true,trim:true 
+        type:String,
+        required:true,
+        trim:true
     },
-    lastName:String,
-    
+    lastName:{
+        type:String,
+        required:true,
+        trim:true 
+    },
+    // define the email feild with type string required and trimmed 
     email:{
-        type:String,unqiue:true,required:true 
+        type:String,
+        required:true,
+        trim:true 
     },
+
     password:{
-        type:String,required:true 
-    },
-    confirmPass:{
-        type:String
-    },
-    token:{
-
-    },
-    resetPasswordExpires:{
-
+        type:String,
+        required:true 
     },
     accountType:{
         type:String,
-        enum:["Admin","Student","Instructor"],
+        enum:['Admin','Student','Instructor'] ,
         required:true 
     },
+    active:{
+        type:Boolean,
+        default:true 
+    },
     additionalDetails:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId ,
         required:true ,
         ref:"Profile"
     },
     courses:[
         {
-            type:mongoose.Schema.Types.ObjectId,
+            type:mongoose.Schema.Types.ObjectId ,
             ref:"Course"
-        },
+        }
     ],
+    
+    token:String,
+
+    resetPasswordExpires:Date,
+
     image:{
         type:String,
-        required:true 
+        required:true
     },
     courseProgress:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"CourseProgress"
+            ref:'courseProgress'
         }
     ]
-})
+ // add timestamps for when document is created and last modifed 
 
+},{timestamps:true})
 
 module.exports=mongoose.model("User",userSchema)
 

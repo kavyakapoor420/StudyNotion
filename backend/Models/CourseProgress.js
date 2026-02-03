@@ -1,11 +1,17 @@
 const mongoose=require('mongoose')
 
+// create category schema
 const courseProgressSchema=new mongoose.Schema({
 
-    courseId:{
-        type:mongoose.Schema.Types.ObjectId ,
+    courseID:{
+        type:mongoose.Schema.Types.ObjectId,
         ref:"Course"
     },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
+    },
+
     completedVideos:[
         {
             type:mongoose.Schema.Types.ObjectId,
@@ -14,5 +20,5 @@ const courseProgressSchema=new mongoose.Schema({
     ]
 })
 
-
-module.exports=mongoose.model("CourseProgress",courseProgressSchema)
+// export  the tags model
+module.exports=mongoose.model("courseProgress",courseProgressSchema)

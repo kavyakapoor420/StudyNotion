@@ -1,47 +1,60 @@
 const mongoose=require('mongoose')
 
+// create category schema
 const courseSchema=new mongoose.Schema({
 
-    courseName:String ,
-    
-    courseDescription:String ,
-
-    instructor:{
+     courseName:String,
+     courseDescription:String,
+     instructor:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true 
-    },
-
-    whatYouWillLearn:String ,
-
-    courseContent:[
+        required:true ,
+        ref:"User"
+     },
+     whatYouWillLearn:String ,
+     courseContent:[
         {
-            type:mongoose.Schema.Types.Objectid ,
+            type:mongoose.Schema.Types.ObjectId ,
             ref:"Section"
         }
-    ],
-    ratingAndReview:[
+     ],
+     ratingAndReviews:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"RatingAndReview"
         }
-    ],
-    price:Number ,
+     ],
+     price:{
+        type:Number,
+     },
+     thumbnail:String ,
+     tag:{
+        type:[String],
+        required:true 
+     },
 
-    thumbnail:String ,
-
-    tag:{
+     category:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Tag"
-    },  
-    studentsEnrolled:[
+        ref:'Category'
+     },
+     studentsEnrolled:[
         {
             type:mongoose.Schema.Types.ObjectId,
             required:true ,
             ref:"User"
         }
-     ]
-
+     ],
+     instructions:{
+        type:[String]
+     },
+     status:{
+        type:String,
+        enum:['Draft','Published','Blocked'],
+     },
+     createdAt:{
+        type:Date,
+        default:Date.now 
+     }
 })
 
+// export  the tags model
 module.exports=mongoose.model("Course",courseSchema)

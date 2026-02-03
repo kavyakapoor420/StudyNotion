@@ -1,17 +1,24 @@
 const mongoose=require('mongoose')
 
+// create profile of user  schema
 const profileSchema=new mongoose.Schema({
 
-    gender:{
-        type:String 
-    },
-    dateOfBirth:{
-        type:String 
-    },
+    gender:String,
+
+    dateOfBirth:String ,
+
     about:{
-        type:String,trim:true 
+        type:String,
+        trim:true 
     },
-    contactNumber:Number 
+    contactNumber:{
+        type:Number,
+        trim:true 
+    }
+   
 })
 
-module.exports=mongoose.model("Profile",profileSchema)
+// export  the profile  model
+const Profile=mongoose.model("Profile",profileSchema)
+
+module.exports=Profile
