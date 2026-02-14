@@ -1,57 +1,78 @@
 const Course = require("../Models/Course");
 const Section = require("../Models/Section");
 
-exports.createSection=async(req,res)=>{
+
+
+const createSection=async(req,res)=>{
 
     try{
-         const {sectionName,courseId}=req.body ;
+        // date fecth validate it (data) -> then create section
+        // update course with section ObjectId 
+        // return response simple 
 
-         if(!sectionName || !courseId){
-            return res.status(400).json({success:false,message:'all fields are required'})
-         }
+        const {sectionName,courseId}=req.body ;
+        if(!sectionName || !courseId){
+            return res.status(400).json({success:false,message:'missing properties'})
+        }
 
-         const newSection=await Section.create({
-            sectionName,
-            courseId
-         })
-          // update course with this new section 
-         const udpatedCourseDetails=await Course.findByIdAndUpdate(
-            courseId,{$push:{courseContent:newSection._id}},{new:true}
+        const newSection=await Section.create({sectionName})
+
+        const updatedCourseDetails=await Course.findByIdAndUpdate(
+            courseId,
+            {
+                  $push:{
+                    courseContent:newSection._id 
+                  }
+                
+            },
+            {new:true} 
         )
 
-        return res.status(200).json({success:true,message:'section created successfully',udpatedCourseDetails})
-    }catch(err){
-        return res.status(500).json({success:false,message:"unable to created section plz try again",error:err.message})
+        // todo : use populate to replace section and subsection both in updated Course Detaisl 
+
+        return res.status(200).json({success:false,message:'section created successfully',updatedCourseDetails})
+
+    }catch(err){    
+        return res.status(500).json({success:false,message:"unable to create section please try again later",err})
+
     }
 }
 
-exports.updateSection=async(req,res)=>{
+const updateSection=async(req,res)=>{
+    try{
+          // date fetch validate it 
+          // update data of Section then return response simple
+          const {sectionName,sectionId}=req.body ;
+          
+          if(!sectionName || !sectionId){
+                return res.status(400).json({success:false,message:'missing properties'})
+          }
+
+          const section=await Section.findByIdAndUpdate(sectionId,{sectionName},{new:true})
+
+          return res.status(200).json({success:true,message:'updated section successfully'})
+
+    }catch(err){
+          return res.status(500).json({success:false,message:"unable to update section please try again later",err})
+    }
+}
+
+const deleteSection=async(req,res)=>{
 
     try{
-         const {sectionName,sectionId}=req.body ;
-         
-         if(!sectionName || !sectionId){
-            return res.status(400).json({success:false,message:'all fields are required'})
-         }  
-         const section=await Section.findByIdAndUpdate(
-            sectionId,{sectionName},{new:true}
-        )
+         // get that particular Id of section which we have to delete from params -> req.params  
+         // use findByIdAndDelete 
 
-        return res.status(200).json({success:true,message:'section updated successfully',section})
+         const {sectionId}=req.params ;
+
+         await Section.findByIdAndDelete(sectionId)
+            // todo :do we need to delete entry from Course also ? 
+            
+         return res.status(200).json({status:true,message:'deleted section successfully'})
+
     }catch(err){
-        return res.status(500).json({success:false,message:"unable to update section plz try again",error:err.message})
+         return res.status(500).json({success:false,message:"unable to delete section please try again later",err})
     }
 }
 
-exports.deleteSection=async(req,res)=>{
-
-    try{
-           // get id -> assuming that we are sending ID in params 
-           const {sectionId}=req.params ;
-           await Section.findByIdAndDelete(sectionId)
-
-           return res.status(200).json({success:true,message:'section deleted successfully'})
-    }catch(err){
-        return res.status(500).json({success:false,message:"unable to delete section plz try again",error:err.message})
-    }
-}
+module.exports={createSection,updateSection,deleteSection}
