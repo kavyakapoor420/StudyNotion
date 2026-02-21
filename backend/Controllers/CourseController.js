@@ -129,4 +129,5 @@ const getAllCourseDetails=async(req,res)=>{
    }
 }
 
+
 module.exports={createCourse,showAllCourse,getAllCourseDetails}
